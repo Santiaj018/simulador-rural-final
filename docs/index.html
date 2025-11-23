@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Simulador 2D: Producción Rural y Manejo del Ecosistema</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Simulador 2D: Producción Rural y Manejo del Ecosistema</h1>
+    <p class="subtitulo">
+      By: santiago leiva Peinado
+      Id: 830223 - Ingeniería de Sistemas
+    </p>
+  </header>
+
+  <main>
+    <section class="panel panel-texto">
+      <h2>Conceptualización del problema</h2>
+      <p>
+        En el sector rural colombiano, muchos pequeños productores buscan aumentar
+        la producción agrícola para mejorar sus ingresos. Una forma frecuente de
+        hacerlo es intensificar el uso de fertilizantes químicos y ampliar el área
+        de cultivo a costa del bosque y la vegetación nativa. Estas decisiones
+        productivas generan impactos importantes en el ecosistema: degradación del
+        suelo, contaminación de las fuentes hídricas, pérdida de biodiversidad y
+        mayor vulnerabilidad a la erosión.
+      </p>
+      <p>
+        El reto del manejo del ecosistema consiste en equilibrar la producción con
+        la conservación. Un ecosistema sano mantiene suelos fértiles, agua de buena
+        calidad y coberturas vegetales que protegen la biodiversidad. El simulador
+        te permitirá experimentar con distintas decisiones de producción en una
+        vereda cafetera y observar sus consecuencias ambientales.
+      </p>
+
+      <h2>Investigación sobre causas, impactos y soluciones</h2>
+      <p>
+        Entre las causas del problema se encuentran el uso intensivo de fertilizantes
+        y pesticidas, la eliminación de franjas de protección en las quebradas y la
+        tala de árboles para sembrar más café. Esto provoca impactos como la
+        contaminación del agua por escorrentía de agroquímicos, la pérdida de
+        hábitats para la fauna y la disminución de la fertilidad del suelo.
+      </p>
+      <p>
+        Como posibles soluciones de manejo del ecosistema se propone el uso racional
+        de fertilizantes, la conservación de zonas de bosque, la implementación de
+        barreras vivas y terrazas para controlar la erosión, así como la protección
+        de las zonas de ronda hídrica. Adoptar estas prácticas permite avanzar hacia
+        una producción más sostenible que proteja los recursos naturales de la
+        comunidad rural.
+      </p>
+    </section>
+
+    <section class="panel panel-juego">
+      <h2>Finca cafetera (vista simplificada)</h2>
+      <canvas id="gameCanvas" width="480" height="320"></canvas>
+
+      <div class="indicadores">
+        <div class="indicador">
+          <div class="indicador-header">
+            <span>Producción de café</span>
+            <span id="lblProduccion">60</span>
+          </div>
+          <div class="barra">
+            <div id="barProduccion" class="barra-inner"></div>
+          </div>
+        </div>
+
+        <div class="indicador">
+          <div class="indicador-header">
+            <span>Estado del suelo</span>
+            <span id="lblSuelo">70</span>
+          </div>
+          <div class="barra">
+            <div id="barSuelo" class="barra-inner"></div>
+          </div>
+        </div>
+
+        <div class="indicador">
+          <div class="indicador-header">
+            <span>Calidad del agua</span>
+            <span id="lblAgua">80</span>
+          </div>
+          <div class="barra">
+            <div id="barAgua" class="barra-inner"></div>
+          </div>
+        </div>
+
+        <div class="indicador">
+          <div class="indicador-header">
+            <span>Bosque y biodiversidad</span>
+            <span id="lblBosque">75</span>
+          </div>
+          <div class="barra">
+            <div id="barBosque" class="barra-inner"></div>
+          </div>
+        </div>
+
+        <div class="indicador">
+          <div class="indicador-header">
+            <span>Sostenibilidad global</span>
+            <span id="lblSostenibilidad">75</span>
+          </div>
+          <div class="barra">
+            <div id="barSostenibilidad" class="barra-inner"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel panel-acciones">
+      <h2>Decisiones del productor</h2>
+      <p class="small">
+        Responde las preguntas y toma decisiones. Cada opción modificará la
+        producción y el estado del ecosistema. Al final obtendrás un final distinto
+        según tu estrategia.
+      </p>
+
+      <div id="preguntaActual" class="pregunta">
+        <h3 id="tituloPregunta">Cargando preguntas...</h3>
+        <p id="textoPregunta"></p>
+        <div id="opciones"></div>
+      </div>
+
+      <div class="controles">
+        <button id="btnSiguiente" disabled>Siguiente decisión</button>
+        <button id="btnReiniciar">Reiniciar partida</button>
+      </div>
+
+      <div id="panelResultado" class="resultado oculto">
+        <h3>Resultados de tu simulación</h3>
+        <p id="resumenResultados"></p>
+        <p id="feedbackBackend" class="small"></p>
+      </div>
+
+      <div id="panelConclusiones" class="resultado oculto">
+        <h3>Conclusiones de aprendizaje</h3>
+        <p id="textoConclusiones">
+          Aquí aparecerá un resumen sobre el tipo de estrategia que usaste y lo que
+          se aprende sobre manejo del ecosistema.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>
+      Actividad académica – Simulador educativo de producción rural y manejo del
+      ecosistema. Elaborado por Santiago Leiva Peinado, ID 830223 – Ingeniería de Sistemas.
+    </p>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
