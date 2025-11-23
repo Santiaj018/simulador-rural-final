@@ -476,4 +476,3 @@ calcularSostenibilidad();
 actualizarBarras();
 drawScene();
 cargarPreguntas();
-
