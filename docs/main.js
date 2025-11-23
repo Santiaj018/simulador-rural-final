@@ -1,11 +1,10 @@
-// Versión para GitHub Pages: TODO local, sin backend
+// Versión GitHub Pages: todo local, sin backend ni localhost
 
-// Preguntas y opciones (antes venían del backend)
 let questions = [
   {
     id: 1,
-    title: "Decisión sobre fertilizantes (Año 1)",
-    text: "Necesitas decidir cuántos fertilizantes químicos vas a usar en tu cafetal.",
+    title: "Uso de fertilizantes (Año 1)",
+    text: "Debes decidir cuántos fertilizantes químicos aplicarás en tu cafetal.",
     options: [
       {
         id: "fert-bajo",
@@ -73,14 +72,13 @@ let questions = [
   },
   {
     id: 4,
-    title: "Tecnología y capacitación",
+    title: "Capacitación y buenas prácticas",
     text: "Un programa ofrece capacitación en buenas prácticas agrícolas.",
     options: [
       {
         id: "capacit-no",
         label: "No participar",
-        description:
-          "Prefieres seguir manejando la finca como siempre."
+        description: "Prefieres seguir manejando la finca como siempre."
       },
       {
         id: "capacit-si",
@@ -92,24 +90,24 @@ let questions = [
   },
   {
     id: 5,
-    title: "Estrategia final",
-    text: "Debes elegir tu estrategia general para los próximos años.",
+    title: "Estrategia general",
+    text: "Elige tu estrategia general de manejo para los próximos años.",
     options: [
       {
         id: "estrat-produccion",
-        label: "Priorizar la producción máxima",
+        label: "Máxima producción",
         description:
           "Te enfocas en producir la mayor cantidad posible de café, aunque se deteriore el ambiente."
       },
       {
         id: "estrat-equilibrio",
-        label: "Buscar equilibrio",
+        label: "Producción equilibrada",
         description:
           "Buscas equilibrio entre ingresos y protección ambiental."
       },
       {
         id: "estrat-conservacion",
-        label: "Enfocarte en la conservación",
+        label: "Conservación del ecosistema",
         description:
           "Aceptas producir menos café pero cuidas al máximo el ecosistema."
       }
@@ -118,19 +116,13 @@ let questions = [
 ];
 
 let currentIndex = 0;
-
-// Estado del juego (0 a 100)
 let produccion = 60;
 let suelo = 70;
 let agua = 80;
 let bosque = 75;
 let sostenibilidad = 75;
-
 let juegoTerminado = false;
 
-// -----------------------------------------------------------
-// Utilidades
-// -----------------------------------------------------------
 function clamp(v) {
   return Math.max(0, Math.min(100, v));
 }
@@ -154,23 +146,18 @@ function actualizarBarras() {
     sostenibilidad + "%";
 }
 
-// -----------------------------------------------------------
-// Canvas: dibujo simple de la finca cafetera
-// -----------------------------------------------------------
+// Canvas
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
 function drawScene() {
-  // Fondo (suelo)
   ctx.fillStyle = "#bbf7d0";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Cultivo de café (zona izquierda)
-  const cultivoAncho = 220 + (produccion - 60); // más producción, más área
+  const cultivoAncho = 220 + (produccion - 60);
   ctx.fillStyle = "#15803d";
   ctx.fillRect(20, 140, cultivoAncho, 130);
 
-  // Líneas de plantas
   ctx.strokeStyle = "#22c55e";
   for (let x = 30; x < 20 + cultivoAncho; x += 20) {
     ctx.beginPath();
@@ -179,12 +166,10 @@ function drawScene() {
     ctx.stroke();
   }
 
-  // Bosque (zona derecha)
   const bosqueAnchura = 160 * (bosque / 100);
   ctx.fillStyle = "#14532d";
   ctx.fillRect(canvas.width - bosqueAnchura - 20, 120, bosqueAnchura, 150);
 
-  // Árboles simple
   const numArboles = Math.max(2, Math.round((bosque / 100) * 8));
   for (let i = 0; i < numArboles; i++) {
     const baseX =
@@ -198,7 +183,6 @@ function drawScene() {
     ctx.fillRect(baseX - 3, baseY - 20, 6, 30);
   }
 
-  // Río (parte inferior)
   const contaminacion = 100 - agua;
   const intensidad = Math.min(1, contaminacion / 100);
   const azulLimpio = { r: 56, g: 189, b: 248 };
@@ -216,7 +200,6 @@ function drawScene() {
   ctx.fillStyle = `rgb(${r},${g},${b})`;
   ctx.fillRect(0, 260, canvas.width, 60);
 
-  // Texto simple
   ctx.fillStyle = "white";
   ctx.font = "12px Arial";
   ctx.fillText("Cultivo de café", 24, 155);
@@ -224,19 +207,11 @@ function drawScene() {
   ctx.fillText("Quebrada", 20, 280);
 }
 
-// -----------------------------------------------------------
-// Preguntas y decisiones (ya NO hace fetch)
-// -----------------------------------------------------------
+// Preguntas sin fetch
 function cargarPreguntas() {
-  try {
-    currentIndex = 0;
-    juegoTerminado = false;
-    actualizarPregunta();
-  } catch (err) {
-    console.error("Error cargando preguntas", err);
-    document.getElementById("tituloPregunta").textContent =
-      "Error interno al cargar las preguntas.";
-  }
+  currentIndex = 0;
+  juegoTerminado = false;
+  actualizarPregunta();
 }
 
 function actualizarPregunta() {
@@ -298,7 +273,6 @@ function aplicarDecision(optionId) {
       dSuelo -= 6;
       dAgua -= 8;
       break;
-
     case "bosque-conservar":
       dBosque += 4;
       dSuelo += 2;
@@ -313,7 +287,6 @@ function aplicarDecision(optionId) {
       dSuelo -= 6;
       dProd += 8;
       break;
-
     case "agua-sin-prot":
       dAgua -= 5;
       break;
@@ -321,7 +294,6 @@ function aplicarDecision(optionId) {
       dAgua += 5;
       dBosque += 2;
       break;
-
     case "capacit-no":
       break;
     case "capacit-si":
@@ -330,7 +302,6 @@ function aplicarDecision(optionId) {
       dAgua += 3;
       dBosque += 3;
       break;
-
     case "estrat-produccion":
       dProd += 8;
       dSuelo -= 4;
@@ -357,22 +328,16 @@ function aplicarDecision(optionId) {
 
 function siguientePregunta() {
   if (juegoTerminado) return;
-
   const seleccion = document.querySelector('input[name="opcion"]:checked');
   if (!seleccion) return;
-
   const opcionId = seleccion.value;
   aplicarDecision(opcionId);
   currentIndex += 1;
-
   actualizarBarras();
   drawScene();
   actualizarPregunta();
 }
 
-// -----------------------------------------------------------
-// Final del juego (lógica local, sin backend)
-// -----------------------------------------------------------
 function finalizarJuego() {
   const panelResultado = document.getElementById("panelResultado");
   const panelConclusiones = document.getElementById("panelConclusiones");
@@ -387,30 +352,29 @@ function finalizarJuego() {
 
   panelResultado.classList.remove("oculto");
 
-  // Usamos la misma lógica que antes tenía el backend
   let endingType = "equilibrio";
   let feedback = "";
 
   if (produccion >= 80 && sostenibilidad <= 50) {
     endingType = "max-produccion-malo-ambiente";
     feedback =
-      "Lograste una producción alta de café, pero el ecosistema quedó seriamente afectado. El suelo se degradó, la calidad del agua disminuyó y se perdió gran parte del bosque. Es un ejemplo de manejo no sostenible del territorio.";
+      "Lograste una producción alta de café, pero el ecosistema quedó seriamente afectado. Es un ejemplo de manejo no sostenible del territorio.";
   } else if (produccion >= 60 && sostenibilidad >= 60) {
     endingType = "equilibrio";
     feedback =
-      "Tus decisiones permitieron mantener una producción adecuada de café, al tiempo que conservaste el suelo, el agua y el bosque en condiciones aceptables. Representas una estrategia de producción sostenible en un contexto rural.";
+      "Tus decisiones permitieron mantener una producción adecuada de café y conservar el suelo, el agua y el bosque en condiciones aceptables.";
   } else if (produccion < 50 && sostenibilidad >= 70) {
     endingType = "conservacion-alta";
     feedback =
-      "El ecosistema se encuentra en muy buen estado, pero la producción de café fue baja. Es un enfoque de conservación fuerte. A futuro podrías explorar prácticas que aumenten moderadamente el rendimiento sin perder la sostenibilidad.";
+      "El ecosistema se encuentra en muy buen estado, pero la producción de café fue baja. Muestra un enfoque de conservación fuerte.";
   } else if (produccion < 50 && sostenibilidad < 50) {
     endingType = "malo-en-todo";
     feedback =
-      "Las decisiones no fueron favorables ni para la producción ni para el ambiente. El reto consiste en entender cómo ciertas acciones combinadas pueden degradar el ecosistema y, al mismo tiempo, no generar los ingresos esperados.";
+      "Las decisiones no fueron favorables ni para la producción ni para el ambiente. Destaca la importancia de planear mejor el manejo del ecosistema.";
   } else {
     endingType = "intermedio";
     feedback =
-      "El resultado fue intermedio: ni la producción ni la sostenibilidad alcanzaron niveles extremos. Este escenario muestra que pequeñas mejoras en tus decisiones de manejo del ecosistema pueden marcar la diferencia hacia un modelo más sostenible.";
+      "El resultado fue intermedio. Pequeños ajustes en tus decisiones pueden mejorar la sostenibilidad y el rendimiento de la finca.";
   }
 
   feedbackBackend.textContent = feedback;
@@ -419,23 +383,23 @@ function finalizarJuego() {
   switch (endingType) {
     case "max-produccion-malo-ambiente":
       conclusiones =
-        "Tu estrategia priorizó la producción a cualquier costo. Esto enseña que, en la práctica, un manejo que ignora el ecosistema termina afectando también la sostenibilidad económica a largo plazo.";
+        "Priorizaste la producción a cualquier costo. Esto muestra que ignorar el ecosistema afecta también la sostenibilidad económica a futuro.";
       break;
     case "equilibrio":
       conclusiones =
-        "Buscaste un equilibrio entre rendimiento y conservación. Esta simulación refuerza la idea de que es posible producir y, al mismo tiempo, cuidar el suelo, el agua y el bosque.";
+        "Buscaste un equilibrio entre rendimiento y conservación. La simulación demuestra que es posible producir y cuidar el ambiente al mismo tiempo.";
       break;
     case "conservacion-alta":
       conclusiones =
-        "Optaste por cuidar al máximo el ecosistema, incluso sacrificando parte de la producción. Muestra la importancia de la conservación como base para el bienestar de las comunidades rurales.";
+        "Decidiste cuidar al máximo el ecosistema, sacrificando parte de la producción. Destaca la importancia de la conservación para el bienestar rural.";
       break;
     case "malo-en-todo":
       conclusiones =
-        "Las decisiones combinadas no fueron adecuadas para la producción ni para el ambiente. Esto resalta la necesidad de planear mejor el manejo del ecosistema y no tomar decisiones aisladas.";
+        "Las decisiones combinadas no favorecieron ni la producción ni el ambiente. Resalta la necesidad de tomar decisiones más informadas.";
       break;
     default:
       conclusiones =
-        "Obtienes un resultado intermedio. Pequeños ajustes en el uso de fertilizantes, la protección del bosque y el cuidado de las quebradas pueden mejorar significativamente la sostenibilidad del sistema productivo.";
+        "Tu resultado fue intermedio; con pequeños cambios en el uso de fertilizantes, el cuidado del bosque y la protección del agua, podrías lograr una finca más sostenible.";
       break;
   }
 
@@ -443,9 +407,6 @@ function finalizarJuego() {
   panelConclusiones.classList.remove("oculto");
 }
 
-// -----------------------------------------------------------
-// Reiniciar
-// -----------------------------------------------------------
 function reiniciar() {
   produccion = 60;
   suelo = 70;
@@ -462,9 +423,6 @@ function reiniciar() {
   cargarPreguntas();
 }
 
-// -----------------------------------------------------------
-// Eventos e inicio
-// -----------------------------------------------------------
 document
   .getElementById("btnSiguiente")
   .addEventListener("click", siguientePregunta);
@@ -476,3 +434,4 @@ calcularSostenibilidad();
 actualizarBarras();
 drawScene();
 cargarPreguntas();
+
